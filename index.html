@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>StudyApp</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4A90D9">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">StudyApp</div>
+  <div class="sync-status" id="syncStatus">Nicht angemeldet</div>
+  <button id="signInBtn" class="btn btn-primary">Mit Microsoft anmelden</button>
+  <button id="signOutBtn" class="btn btn-ghost hidden">Abmelden</button>
+  <div class="mini-cal-wrap">
+    <button id="miniCalToggle" class="btn btn-ghost icon-cal" title="Kalender">📅</button>
+    <div class="mini-cal-popover hidden" id="miniCalPopover"></div>
+  </div>
+  <button id="backupExportBtn" class="btn btn-ghost icon-cal" title="Backup herunterladen (JSON)">⬇</button>
+  <button id="backupImportBtn" class="btn btn-ghost icon-cal" title="Backup wiederherstellen (JSON)">⬆</button>
+  <input type="file" id="backupImportInput" accept="application/json" class="hidden">
+</header>
+
+<nav class="tabbar" id="tabbar"></nav>
+
+<main id="app">
+
+  <!-- ===== AUFGABEN ===== -->
+  <section id="view-tasks" class="view active">
+    <div class="view-header">
+      <h1>Aufgaben</h1>
+      <button id="addTaskBtn" class="btn btn-primary">+ Neue Aufgabe</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="task-table" id="taskTable">
+        <thead>
+          <tr>
+            <th class="col-subject">Fach / Projekt</th>
+            <th class="col-title">Auftrag</th>
+            <th class="col-assignee">Zuständig</th>
+            <th class="col-date">Deadline</th>
+            <th class="col-done">Erledigt</th>
+            <th class="col-actions"></th>
+          </tr>
+        </thead>
+        <tbody id="taskTableBody"></tbody>
+      </table>
+    </div>
+    <p class="empty-hint hidden" id="taskEmptyHint">Noch keine Aufgaben. Leg mit "+ Neue Aufgabe" los.</p>
+  </section>
+
+  <!-- ===== NOTIZEN ===== -->
+  <section id="view-notes" class="view">
+    <div class="view-header">
+      <h1>Notizen</h1>
+      <button id="addNoteBtn" class="btn btn-primary">+ Neue Notiz</button>
+    </div>
+    <ul class="notes-grid" id="notesList"></ul>
+    <p class="empty-hint hidden" id="notesEmptyHint">Noch keine Notizen.</p>
+  </section>
+
+  <!-- ===== STUNDENPLAN ===== -->
+  <section id="view-timetable" class="view">
+    <div class="view-header">
+      <h1>Stundenplan</h1>
+      <div class="week-nav">
+        <button id="weekPrevBtn" class="btn btn-ghost">‹</button>
+        <span id="weekLabel" class="week-label"></span>
+        <button id="weekNextBtn" class="btn btn-ghost">›</button>
+        <button id="weekTodayBtn" class="btn btn-secondary">Heute</button>
+      </div>
+      <button id="addTimetableBtn" class="btn btn-primary">+ Termin</button>
+    </div>
+    <div class="week-grid-wrap">
+      <div class="week-grid" id="weekGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== FÄCHER / PROJEKTE ===== -->
+  <section id="view-subjects" class="view">
+    <div class="view-header">
+      <h1>Fächer / Projekte</h1>
+      <div class="btn-group">
+        <select id="subjectFilter"></select>
+        <button id="addSubjectBtn" class="btn btn-primary">+ Neu</button>
+      </div>
+    </div>
+    <div id="subjectOverview"></div>
+  </section>
+
+</main>
+
+<!-- ===== Vollbild-Notizeditor ===== -->
+<div class="note-fullscreen hidden" id="noteFullscreen">
+  <div class="nf-header">
+    <button id="noteBackBtn" class="btn btn-ghost">← Zurück</button>
+    <input type="text" id="noteTitleInput" class="nf-title-input" placeholder="Titel">
+    <select id="noteSubjectSelect"></select>
+    <button id="noteDeleteBtn" class="icon-btn" title="Notiz löschen">🗑</button>
+  </div>
+  <div id="noteCanvasContainer" class="nf-canvas-container"></div>
+</div>
+
+<!-- ===== Generic modal used for all "add / edit" forms ===== -->
+<div class="modal-backdrop hidden" id="modalBackdrop">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@3/lib/msal-browser.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/note-canvas.js"></script>
+<script src="js/views.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
